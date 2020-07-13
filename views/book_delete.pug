@@ -4,18 +4,16 @@ block content
   h1 #{title}: #{book.title}
   
   if book_instances.length
-  
+
     p #[strong Delete the following book copies or instances before attempting to delete this title.]
   
     div(style='margin-left:20px;margin-top:20px')
 
       h4 Books
     
-      dl
       each val in book_instances
-        dt 
-          a(href=val.url) #{val.title}
-        dd #{val.summary}
+        p #[strong Id:]&nbsp;
+          a(href=val.url) #{val._id}
 
   else
     p Do you really want to delete this title?
