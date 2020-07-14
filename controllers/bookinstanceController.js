@@ -99,25 +99,31 @@ exports.bookinstance_create_post = [
 // Display BookInstance delete form on GET
 exports.bookinstance_delete_get = function(req, res) {
 
-    async.parallel({
-        book_instance: function(callback) {
-            BookInstance.findById(req.params.id).exec(callback)
+    BookInstance.findById(req.params.id)
+    .populate('book')
+    .exec(function (err, bookinstance) {
+      if (err) { return next(err); }
+      if (bookinstance==null) { // No results.
+          var err = new Error('Book copy not found');
+          err.status = 404;
+          return next(err);
         }
-    }, function(err, results) {
-        if (err) { return next(err); }
-        if (results.book_instance==null) { // No results.
-            res.redirect('/catalog/book_instances');
-        }
-        // Successful, so render.
-        res.render('book_instance_delete', { title: 'Delete Book_Instance', book_instance: results.book_instance});
+
+    // Successful, so render.
+        res.render('book_instance_delete', { title: 'Delete Book_Instance', book_instance: bookinstance});
     }
-		  );
+	 )
 };
 
 // Handle BookInstance delete on POST.
 exports.bookinstance_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: BookInstance delete POST');
-};
+
+      BookInstance.findByIdAndRemove(req.body.book_instanceid, function (err) {
+                if (err) { return next(err); }
+                // Success - go to book list
+                res.redirect('/catalog/bookinstances')
+      }
+				    )};
 
 // Display BookInstance update form on GET.
 exports.bookinstance_update_get = function(req, res) {

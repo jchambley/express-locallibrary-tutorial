@@ -197,7 +197,7 @@ exports.book_delete_post = function(req, res, next) {
         if (err) { return next(err); }
         // Success
         if (results.books_instances.length > 0) {
-            // Book has copies (instances). Render in same way as for GET route.
+            // Book STILL has copies (instances). Render in same way as for GET route.
             res.render('book_delete', { title: 'Delete Book', book: results.book, book_instances: results.books_instances } );
             return;
         }
