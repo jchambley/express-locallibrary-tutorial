@@ -127,6 +127,8 @@ exports.bookinstance_delete_post = function(req, res) {
 
 // Display BookInstance update form on GET.
 exports.bookinstance_update_get = function(req, res) {
+    //    async({}, function(err, results){});
+    // wanna call Book.find(), BookInstance(req.params.id) asynchronouly ..
     res.send('NOT IMPLEMENTED: BookInstance update GET');
 };
 
