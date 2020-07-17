@@ -97,7 +97,7 @@ exports.bookinstance_create_post = [
 ];
 
 // Display BookInstance delete form on GET
-exports.bookinstance_delete_get = function(req, res) {
+exports.bookinstance_delete_get = function(req, res, next) {
 
     BookInstance.findById(req.params.id)
     .populate('book')
@@ -116,7 +116,7 @@ exports.bookinstance_delete_get = function(req, res) {
 };
 
 // Handle BookInstance delete on POST.
-exports.bookinstance_delete_post = function(req, res) {
+exports.bookinstance_delete_post = function(req, res, next) {
 
       BookInstance.findByIdAndRemove(req.body.book_instanceid, function (err) {
                 if (err) { return next(err); }
@@ -126,11 +126,32 @@ exports.bookinstance_delete_post = function(req, res) {
 				    )};
 
 // Display BookInstance update form on GET.
-exports.bookinstance_update_get = function(req, res) {
-    //    async({}, function(err, results){});
-    // wanna call Book.find(), BookInstance(req.params.id) asynchronouly ..
-    res.send('NOT IMPLEMENTED: BookInstance update GET');
+/*exports.bookinstance_update_get = function(req, res, next) {
+
+    async.parallel({
+	books: function (callback) {
+	    Book.find({},'title');
+    },
+	bookinstance: function (callback) {
+	    BookInstance.findById(req.params.id);
+	}
+    },  function (err, results){
+
+        if (err) { return next(err); }
+        if (results.bookinstance==null) { // No results.
+            var err = new Error('Book Copy Not Found');
+            err.status = 404;
+            return next(err);
+        }
+       // Successful, so render.
+	res.render('bookinstance_form', { title: 'Update Book Copy : '+results.bookinstance._id, bookinstance:  results.bookinstance, book_list: results.books});
+    });
+
+    };*/
+exports.bookinstance_update_get = function(req, res){
+    res.send('not implemented yet');
 };
+
 
 // Handle bookinstance update on POST.
 exports.bookinstance_update_post = function(req, res) {
